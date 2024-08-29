@@ -1,0 +1,77 @@
+{
+  "name": "Generate and Download Survey Links",
+
+  "namespace": "VUMC\\GenerateAndDownloadSurveyLinksExternalModule",
+  "framework-version": 12,
+  "authors": [
+    {
+      "name": "Eva Bascompte Moragas",
+      "email": "datacore@vumc.org",
+      "institution": "Vanderbilt University Medical Center"
+    }
+  ],
+
+  "permissions": [],
+
+  "no-auth-pages":[],
+
+  "description": "Generates survey links for all records in a project and saves them to a .csv file in the file repository",
+
+  "project-settings": [
+    {
+      "key": "info",
+      "name": "<div class='alert alert-info' style='border-color:#bce8f1 !important'>Activate the checkbox to generate the file tonight.<br>NOTE: Allow respondents to return without needing a return code.</a>",
+      "type": "descriptive"
+    },
+    {
+      "key": "generate-file",
+      "name": "Generate File Tonight?",
+      "type": "checkbox"
+    },
+    {
+      "key": "instrument",
+      "name": "Select Survey",
+      "type": "sub_settings",
+      "repeatable": true,
+      "sub_settings": [
+        {
+        "key": "custom-instruments",
+        "name": "Select the survery you want to add the link from",
+        "type": "form-list",
+        "required": true,
+        "visibility-filter": "public"
+        }
+      ]
+    },
+    {
+      "key": "fields",
+      "name": "Select Fields",
+      "type": "sub_settings",
+      "repeatable": true,
+      "sub_settings": [
+        {
+          "key": "custom-fields",
+          "name": "Select the field to add as a new filter.",
+          "type": "field-list"
+        }
+      ]
+    }
+  ],
+
+  "crons": [
+    {
+      "cron_name": "generate_and_download_survey_links_cron",
+      "cron_description": "Cron that runs to generate a csv file of survey links.",
+      "method": "generateDocumentSurveyLinksCron",
+      "cron_frequency": "21600",
+      "cron_max_run_time": "86400"
+    }
+  ],
+
+  "compatibility": {
+    "php-version-min": "7.3.29",
+    "php-version-max": "",
+    "redcap-version-min": "13.0.0",
+    "redcap-version-max": ""
+  }
+}
