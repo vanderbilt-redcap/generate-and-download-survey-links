@@ -27,7 +27,7 @@ class GenerateAndDownloadSurveyLinksExternalModule extends AbstractExternalModul
                     $generate_file = $this->getProjectSetting('generate-file', $project_id);
                     if ($generate_file) {
                         $custom_instruments = $this->getProjectSetting('custom-instruments', $project_id);
-                        $custom_fields = empty($this->getProjectSetting('custom-fields', $project_id)) ? array() : $this->getProjectSetting('custom-fields', $project_id);
+                        $custom_fields = empty($this->getProjectSetting('custom-fields', $project_id)) ? [] : $this->getProjectSetting('custom-fields', $project_id);
                         $custom_fields = array_merge($custom_fields, ['record_id']);
 
                         $all_data = \REDCap::getData($project_id, "json-array", null, $custom_fields);
