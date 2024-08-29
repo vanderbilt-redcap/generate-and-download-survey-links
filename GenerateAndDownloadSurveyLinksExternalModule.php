@@ -20,32 +20,32 @@ class GenerateAndDownloadSurveyLinksExternalModule extends AbstractExternalModul
      * example of this same concept.
      */
     function generateDocumentSurveyLinksCron($cronAttributes){
-//        $hourRange = 6;
-//        if(date('G') > $hourRange){
-//            // Only perform actions between 12am and 6am.
-//            return;
-//        }
-//        $thisCron = $cronAttributes['cron_name'];
-//
-//        ## Old way of checking cron status, check to prevent re-sending on upgrade
-//        $lastRunSettingName = 'last-cron-run-time';
-//        $lastRun = (int)$this->getSystemSetting($lastRunSettingName);
-//        $hoursSinceLastRun = (time()-$lastRun)/60/60;
-//        if($hoursSinceLastRun < $hourRange){
-//            // We're already run recently
-//            return;
-//        }
-//
-//        $lastRunCronSettingName = 'last-cron-run-time-'.$thisCron;
-//        $lastRunThisCron = (int)$this->getSystemSetting($lastRunCronSettingName);
-//        $hoursSinceLastRun = (time()-$lastRunThisCron)/60/60;
-//        if($hoursSinceLastRun < $hourRange){
-//            // We're already run this cron recently
-//            return;
-//        }
-//
-//        ## Immediately log starting in case a second process spawns for this cron
-//        $this->setSystemSetting($lastRunCronSettingName, time());
+        $hourRange = 6;
+        if(date('G') > $hourRange){
+            // Only perform actions between 12am and 6am.
+            return;
+        }
+        $thisCron = $cronAttributes['cron_name'];
+
+        ## Old way of checking cron status, check to prevent re-sending on upgrade
+        $lastRunSettingName = 'last-cron-run-time';
+        $lastRun = (int)$this->getSystemSetting($lastRunSettingName);
+        $hoursSinceLastRun = (time()-$lastRun)/60/60;
+        if($hoursSinceLastRun < $hourRange){
+            // We're already run recently
+            return;
+        }
+
+        $lastRunCronSettingName = 'last-cron-run-time-'.$thisCron;
+        $lastRunThisCron = (int)$this->getSystemSetting($lastRunCronSettingName);
+        $hoursSinceLastRun = (time()-$lastRunThisCron)/60/60;
+        if($hoursSinceLastRun < $hourRange){
+            // We're already run this cron recently
+            return;
+        }
+
+        ## Immediately log starting in case a second process spawns for this cron
+        $this->setSystemSetting($lastRunCronSettingName, time());
 
         // Perform cron actions here
         foreach ($this->getProjectsWithModuleEnabled() as $project_id){
@@ -56,7 +56,6 @@ class GenerateAndDownloadSurveyLinksExternalModule extends AbstractExternalModul
                     $custom_fields = array_merge(['record_id'],$this->getProjectSetting('custom-fields',$project_id));
 
                     $all_data = \REDCap::getData($project_id, "json-array", null, $custom_fields);
-
 
                     $csv_instruments = [];
                     foreach ($custom_instruments as $instrument_index => $instrument_name) {
